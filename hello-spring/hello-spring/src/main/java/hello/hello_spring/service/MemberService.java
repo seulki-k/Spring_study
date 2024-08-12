@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service //Spring이 올라올 때 Spring 컨테이너에 등록한다.
+ //Spring이 올라올 때 Spring 컨테이너에 등록한다.
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Autowired
-    public MemberService(MemoryMemberRepository memberRepository) {
+
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
