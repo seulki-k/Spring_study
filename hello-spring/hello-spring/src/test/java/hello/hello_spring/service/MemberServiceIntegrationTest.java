@@ -1,38 +1,32 @@
 package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
-import hello.hello_spring.repository.MemoryMemberRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import hello.hello_spring.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest
+@Transactional //test case에 달면 트랜잭션 실행하고 테스트 끝나면 롤백
+class MemberServiceIntegrationTest {
 
-class MemberServiceTest {
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;
 
-    MemberService memberService;
-    MemoryMemberRepository memberRepository;
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-
-    @AfterEach
-    public void afterEach() {
-        memberRepository.clearStore();
-    }
 
     @Test
     void 회원가입() {
         //given
         Member member = new Member();
-        member.setName("hello");
+        member.setName("dec");
+
         //when
         Long saveId = memberService.join(member);
+
         //then
         Member findMember = memberService.findOne(saveId).get();
         Assertions.assertThat(member.getName()).isEqualTo(findMember.getName());
@@ -49,15 +43,7 @@ class MemberServiceTest {
         //when
         memberService.join(member1);
         assertThrows(IllegalStateException.class, () -> memberService.join(member2));
-//        try {
-//            memberService.join(member2);
-//        } catch (IllegalStateException e) {
-//            Assertions.assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
-//        }
-        //then
+
     }
 
-    @Test
-    void findOne() {
-    }
 }

@@ -5,11 +5,14 @@ import hello.hello_spring.repository.MemberRepository;
 import hello.hello_spring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
  //Spring이 올라올 때 Spring 컨테이너에 등록한다.
+
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
 
